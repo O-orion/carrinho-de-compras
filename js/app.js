@@ -1,9 +1,10 @@
 const produtoCampo = document.querySelector('#produto');
 const quantidade = document.querySelector('#quantidade');
 const listaCarrinho = document.querySelector('#lista-produtos');
-const total = document.querySelector('#valor-total');
+const campoTotal = document.querySelector('#valor-total');
 
 function adicionar() {
+
     const produto = produtoCampo.value;
     const textoProduto = produto.split('-');
     const valor = parseFloat(textoProduto[1].substring(3));
@@ -13,6 +14,13 @@ function adicionar() {
         alert('Por favor, insira uma quantidade válida.');
         return;
     }
+
+    montarHTML(quantidadeProduto, textoProduto)
+    valorProduto(parseFloat(campoTotal.textContent.substring(2)), valor, quantidadeProduto)
+
+}
+
+function montarHTML(quantidadeProduto, textoProduto) {
 
     const produtoElement = document.createElement('section');
     produtoElement.className = 'carrinho__produtos__produto';
@@ -32,13 +40,15 @@ function adicionar() {
     produtoElement.appendChild(valorSpan);
 
     listaCarrinho.appendChild(produtoElement);
+}
 
-    const valorTotal = parseFloat(total.textContent.substring(2)) + (valor * quantidadeProduto);
-    total.textContent = `R$${valorTotal.toFixed(2)}`;
+function valorProduto(total, valor, quantidade) {
+    const valorTotal = parseFloat(total + (valor * quantidade));
+    campoTotal.textContent = `R$${valorTotal.toFixed(2)}`;
 }
 
 function limpar() {
     quantidade.value = '';
     listaCarrinho.innerHTML = '';
-    total.textContent = 'R$0.00';
+    campoTotal.textContent = 'R$0.00';
 }
